@@ -2,9 +2,59 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Home</title>
+    <script>
+        document.addEventListener("click", function (event) {
+            var x = event.clientX;
+            var y = event.clientY;
+
+            fetch('/click', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'x=' + x + '&y=' + y
+            }).then(response => {
+                if (response.ok) {
+                    updateTable(x, y);
+                } else {
+                    alert("Failed to record click");
+                }
+            });
+        });
+
+        function updateTable(x, y) {
+            var table = document.getElementById("clickTable");
+            var row = table.insertRow();
+            var dateCell = row.insertCell(0);
+            var xCell = row.insertCell(1);
+            var yCell = row.insertCell(2);
+
+            var now = new Date();
+            dateCell.innerHTML = now.toLocaleString();
+            xCell.innerHTML = x;
+            yCell.innerHTML = y;
+        }
+    </script>
 </head>
 <body>
 <h2>Welcome, <span th:text="${username}"></span>!</h2>
-<p>This is your home page. Your session will expire in 4 minutes.</p>
+<a href="/logout">Logout</a>
+<h3>Click History</h3>
+<table id="clickTable" border="1">
+    <thead>
+    <tr>
+        <th>Date</th>
+        <th>X (pixels)</th>
+        <th>Y (pixels)</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="click : ${clicks}">
+        <td th:text="${click.dateTime}"></td>
+        <td th:text="${click.x}"></td>
+        <td th:text="${click.y}"></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

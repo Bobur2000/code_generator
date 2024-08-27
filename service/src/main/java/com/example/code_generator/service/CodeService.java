@@ -1,9 +1,13 @@
 package com.example.code_generator.service;
 
+import com.example.code_generator.model.CodeHistory;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -14,8 +18,8 @@ public class CodeService {
     private final SecureRandom random = new SecureRandom();
 
     private final Map<String, String> userCodes = new HashMap<>();
+    private final List<CodeHistory> codeHistory = new ArrayList<>();
 
-    // Генерация случайного четырехзначного кода
     public String generateCode() {
         StringBuilder code = new StringBuilder(CODE_LENGTH);
         for (int i = 0; i < CODE_LENGTH; i++) {
@@ -24,15 +28,18 @@ public class CodeService {
         return code.toString();
     }
 
-    // Регистрация пользователя с генерированным кодом
     public String registerUser(String username) {
         String code = generateCode();
         userCodes.put(username, code);
+        codeHistory.add(new CodeHistory(username, code, LocalDateTime.now()));
         return code;
     }
 
-    // Проверка кода пользователя
     public boolean validateCode(String username, String code) {
         return userCodes.containsKey(username) && userCodes.get(username).equals(code);
+    }
+
+    public List<CodeHistory> getCodeHistory() {
+        return codeHistory;
     }
 }

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Generated Code</title>
+</head>
+<body>
+<h2>Generated Code for <span th:text="${username}"></span>: <span th:text="${code}"></span></h2>
+<h3>Code History</h3>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Username</th>
+        <th>Code</th>
+        <th>Date Generated</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="codeEntry : ${codeHistory}">
+        <td th:text="${codeEntry.username}"></td>
+        <td th:text="${codeEntry.code}"></td>
+        <td th:text="${codeEntry.dateTime}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

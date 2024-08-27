@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Show Code</title>
+</head>
+<body>
+<h2>Registration Successful!</h2>
+<p>Your username is: <span th:text="${username}"></span></p>
+<p>Your login code is: <span th:text="${code}"></span></p> <!-- В реальном приложении код отправляется пользователю через email или SMS -->
+<a href="/">Go back to login</a>
+</body>
+</html>
